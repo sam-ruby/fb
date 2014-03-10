@@ -3,13 +3,14 @@ class YouTube
   G_BASE_URL = '/youtube/v3'
 
   def initialize
+    Rails.logger = Logger.new(STDOUT)
     @config_file = File.join(
       Rails.root, 'config', Rails.application.config.youtube_key_file_name) 
     raise "Config file not loaded" unless File.exist?(@config_file)
     @secrets = YAML.load(File.read(@config_file))
   end
 
-  def authorize
+  def refresh
     url = 'https://accounts.google.com/o/oauth2/token'
     res = Net::HTTP.post_form(URI.parse(url),
                         client_id: @secrets['client_id'],
@@ -26,32 +27,78 @@ class YouTube
   end
 
   def make_url(path, parts)
-    "#{G_HOST}#{G_BASE_URL}/channels?" + 
-      parts.map {|k,v| "#{k}=#{v}"}.join('&')
+    "#{G_HOST}#{G_BASE_URL}/#{path}?" + 
+      parts.reject{|k,v| v.nil?}.map {|k,v|
+        "#{URI::encode(k.to_s)}=#{URI::encode(v.to_s)}"}.join('&')
   end
 
-  def get_channel_list
-    url = make_url('channels', {
-      part: 'id,snippet', mine: true,
-      access_token: @secrets['access_token']})
+  def search_songs
     retried = false
-    begin
-      Rails.logger.info('Abt to call the url ' + url)
-      res = Net::HTTP.get(URI.parse(url))
-      if !res.is_a?(Net::HTTPSuccess)
-        if (a = JSON.parse(res)) and 
-          a['error'] and res['error']['code'] == 401
-          raise 'Auth Error'
+    res = ''
+    next_page_token=nil
+    
+    100.times.each do
+      Rails.logger.info("Retried flag is #{retried}")
+      begin
+        url = make_url(
+          'search', {part: 'snippet', mine: true, 
+                     q: 'malayalam songs', maxResults: 50,
+                     pageToken: next_page_token,
+                     access_token: @secrets['access_token']})
+        Rails.logger.info('Abt to call the url ' + url)
+        res = Net::HTTP.get_response(URI.parse(url))
+        if !res.is_a?(Net::HTTPSuccess)
+          Rails.logger.error(JSON.parse(res.body))
+          a = JSON.parse(res.body)
+          if a['error'] and a['error']['code'] == 401
+            raise 'Auth Error'
+          end
+        end
+      rescue RuntimeError => e
+        if e.message == 'Auth Error' and !retried
+          Rails.logger.error('Auth error, trying to refresh the token')
+          retried = true
+          refresh()
+          retry
+        else
+          Rails.logger.error("Something else happened #{e.message}")
         end
       end
-    rescue RuntimeError => e
-      if e == 'Auth Error' and !retried
-        retried = true
-        authorize()
-        retry
+      Rails.logger.info(resp = JSON.parse(res.body))
+      next_page_token = resp['nextPageToken']
+      parse_search_list(resp)
+    end
+  end
+
+  def parse_search_list(resp)
+    @max_song_id = SongInfo.maximum(:id)
+    resp['items'].each {|item|
+      if item['id'] and item['id']['videoId'] 
+        Rails.logger.info('Processing video ' + item['id']['videoId'])
+      else
+        Rails.logger.info('Processing video ' + item['kind'])
       end
-    else
-      puts JSON.parse(res)
+      next unless item['kind'] == 'youtube#searchResult'
+      next unless item['id'] and item['id']['kind'] == 'youtube#video'
+      next unless (snippet = item['snippet'])
+      next unless (video_id = item['id']['videoId'])
+      store_song_info(video_id, snippet)
+    }
+  end
+
+  def store_song_info(video_id, snippet)
+    begin
+      song = SongInfo.find_or_create_by(
+        video_id: video_id, published_at: snippet['publishedAt'],
+        channel_id: snippet['channelId'],
+        title: snippet['title'],
+        description: snippet['description'],
+        image_url: snippet['thumbnails']['default']['url'],
+        channel_title: snippet['channelTitle'])
+      Rails.logger.info('Successfully stored video for ' + video_id) if (
+        song.id > @max_song_id)
+    rescue ActiveRecord::RecordNotUnique
+      Rails.logger.error("Index violation by #{video_id} ignored")
     end
   end
 end
