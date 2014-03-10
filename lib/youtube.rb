@@ -36,8 +36,10 @@ class YouTube
     retried = false
     res = ''
     next_page_token=nil
+    @sum_count = 0
+    @max_song_id = SongInfo.maximum(:id) || 0
     
-    100.times.each do
+    1.times.each do
       Rails.logger.info("Retried flag is #{retried}")
       begin
         url = make_url(
@@ -66,12 +68,12 @@ class YouTube
       end
       Rails.logger.info(resp = JSON.parse(res.body))
       next_page_token = resp['nextPageToken']
-      parse_search_list(resp)
+      parse_search_list(resp) 
     end
+    Rails.logger.info("Successfully processed #{@sum_count} videos")
   end
 
   def parse_search_list(resp)
-    @max_song_id = SongInfo.maximum(:id) || 0
     resp['items'].each {|item|
       if item['id'] and item['id']['videoId'] 
         Rails.logger.info('Processing video ' + item['id']['videoId'])
@@ -82,7 +84,7 @@ class YouTube
       next unless item['id'] and item['id']['kind'] == 'youtube#video'
       next unless (snippet = item['snippet'])
       next unless (video_id = item['id']['videoId'])
-      store_song_info(video_id, snippet)
+      store_song_info(video_id, snippet) { @sum_count += 1 }
     }
   end
 
@@ -95,8 +97,10 @@ class YouTube
         description: snippet['description'],
         image_url: snippet['thumbnails']['default']['url'],
         channel_title: snippet['channelTitle'])
-      Rails.logger.info('Successfully stored video for ' + video_id) if (
-        song.id > @max_song_id)
+      if (song.id > (@max_song_id + @sum_count))
+        Rails.logger.info('Successfully stored video for ' + video_id)
+        yield
+      end
     rescue ActiveRecord::RecordNotUnique
       Rails.logger.error("Index violation by #{video_id} ignored")
     end
