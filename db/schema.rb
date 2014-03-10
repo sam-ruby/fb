@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140302032029) do
+ActiveRecord::Schema.define(version: 20140310152359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "song_infos", force: true do |t|
+    t.string   "video_id"
+    t.datetime "published_at"
+    t.string   "channel_id"
+    t.text     "title"
+    t.text     "description"
+    t.string   "image_url"
+    t.string   "channel_title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "song_infos", ["video_id"], name: "video_id_idx", unique: true, using: :btree
 
   create_table "songs", force: true do |t|
     t.string "name"

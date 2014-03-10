@@ -3,6 +3,6 @@ namespace :youtube do
   task refresh: :environment do
     require 'youtube'
     youtube = YouTube.new
-    youtube.get_channel_list()
+    youtube.search_songs()
   end
 end
