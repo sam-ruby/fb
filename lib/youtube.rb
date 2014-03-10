@@ -71,7 +71,7 @@ class YouTube
   end
 
   def parse_search_list(resp)
-    @max_song_id = SongInfo.maximum(:id)
+    @max_song_id = SongInfo.maximum(:id) || 0
     resp['items'].each {|item|
       if item['id'] and item['id']['videoId'] 
         Rails.logger.info('Processing video ' + item['id']['videoId'])
