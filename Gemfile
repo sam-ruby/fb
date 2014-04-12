@@ -50,3 +50,5 @@ gem 'rails_12factor', group: :production
 
 gem 'google-api-client'
 ruby "2.1.0"
+
+gem 'rails-backbone'
