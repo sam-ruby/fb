@@ -36,10 +36,14 @@ class YouTube
     retried = false
     res = ''
     next_page_token=nil
+    loop_count = 0
     @sum_count = 0
-    @max_song_id = SongInfo.maximum(:id) || 0
+    @max_song_id = Song.maximum(:id) || 0
     
-    1.times.each do
+    while ((next_page_token.nil? and loop_count == 0) or 
+      (!next_page_token.nil? and loop_count < 10) or 
+      (next_page_token.nil? and loop_count != 0)) do
+      loop_count += 1
       Rails.logger.info("Retried flag is #{retried}")
       begin
         url = make_url(
@@ -74,6 +78,10 @@ class YouTube
   end
 
   def parse_search_list(resp)
+    if resp['error']
+      Rails.logger.error('Something happened: ' + resp['error']['code'].to_s)
+      return
+    end
     resp['items'].each {|item|
       if item['id'] and item['id']['videoId'] 
         Rails.logger.info('Processing video ' + item['id']['videoId'])
@@ -90,7 +98,7 @@ class YouTube
 
   def store_song_info(video_id, snippet)
     begin
-      song = SongInfo.find_or_create_by(
+      song = Song.find_or_create_by(
         video_id: video_id, published_at: snippet['publishedAt'],
         channel_id: snippet['channelId'],
         title: snippet['title'],
