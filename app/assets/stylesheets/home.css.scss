@@ -12,3 +12,139 @@
 .fbold {
   font-weight: bold;
 }
+
+ol.song-list, ol.play-lists {
+  list-style: none;
+  position: relative;
+  div, li, span, a, img, h3, ul {
+    margin: 0;
+    border: 0;
+    background: transparent;
+    font-size: 100%;
+    cursor: pointer;
+  }
+
+  li.clearfix {
+    &:before, &:after {
+      content: '.';
+      display: block;
+      height: 0;
+      visibility: hidden;
+    }
+    &:after {
+      clear: both;
+    }
+  }
+
+  li.song, li.play-list {
+    padding: 10px 15px 10px 0px;
+    max-width: 705px;
+    font-size: 12px;
+    color: #555;
+    
+    .s-content {
+      overflow: hidden;
+      .title {
+        font-size: 14px;
+        margin-top: 5px;
+        a {
+          color: #1b7fcc;
+          max-height: 2.6em;
+          display: block;
+          line-height: 1.3em;
+          white-space: normal;
+          text-decoration: none;
+        }
+      }
+      .description {
+        line-height: 1.3em;
+        word-wrap: break-word;
+        margin: 5px 0 0;
+        max-height: 2.6em;
+        overflow: hidden;
+        white-space: normal;
+        span {
+          display: block;
+          word-wrap: break-word;
+        }
+      }
+    }
+    .thumbnail {
+      float: left;
+      margin-right: 10px;
+      width: 185px;
+      text-align: right;
+    
+      a {
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        cursor: pointer;
+        color: #1b7fcc;
+        
+        span.video-thumb {
+          opacity: .7;
+          position: relative;
+          width: 185px;
+          overflow: hidden;
+          background: #f1f1f1;
+          font-size: 0;
+          vertical-align: middle;
+          display: inline-block;
+          
+          span.video-default {
+            padding-bottom: 56.25%;
+            display: block;
+            height: auto;
+            
+            span.video-clip {
+              position: absolute;
+              bottom: -100px;
+              top: -100px;
+              left: -100px;
+              right: -100px;
+              text-align: center;
+              white-space: nowrap;
+              word-break: normal;
+              
+              img {
+                font-size: 13px;
+                outline: none;
+                display: inline-block;
+                vertical-align: middle;
+                width: 185px;
+              }
+              span.valign {
+                display: inline-block;
+                vertical-align: middle;
+                height: 100%;
+              }
+            }
+          }
+        }
+      }
+    } //Closes the thumbnail
+  } // closes li
+}
+
+#playlist {
+  .section {
+    position: fixed;
+    top: 5px;
+  }
+}
+
+.more-songs {
+  width: 100%;
+  background-image: url('/assets/ajax_loader.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 1em 0 2em;
+}
+
+#eof {
+  height: 10em;
+}
+  
+
