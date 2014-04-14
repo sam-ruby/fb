@@ -11,18 +11,22 @@ window.Fb =
   Views: {}
 
 class MainRouter extends Backbone.Router
+  initialize: (options) ->
+    super(options)
+
   routes:
-    '(list)' : 'main'
+    "playlist(/*args)" : "playlist"
+    "(main)(/*args)" : "home"
   
   _extractParameters: (route, fragment) =>
-    parts = (part for part in fragment.split('/') when part != '')
     results = {}
+    return results unless fragment?
+    parts = (part for part in fragment.split('/') when part != '')
     for k, index in part
       continue if index%2 != 0
-      results[k] = parts[i+1]
+      results[k] = parts[index+1]
     results
 
-  main: (@params) =>
+  home: (@params)=>
 
 Fb.Routers.Main = new MainRouter()
-Backbone.history.start()
