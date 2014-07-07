@@ -6,7 +6,7 @@ class SongsController < ApplicationController
     offset = page * per_page - per_page
     respond_to do |format|
       format.json do
-        render :json => Song.all.order(created_at: :desc).limit(
+        render :json => Song.all.order(published_at: :desc).limit(
           per_page).offset(offset)
       end
     end
