@@ -42,7 +42,7 @@ gem 'capistrano-rails'
 gem 'capistrano-bundler'
 
 # Use debugger
-gem 'debugger', group: [:development, :test]
+# gem 'debugger', group: [:development, :test]
 #
 gem 'haml'
 
