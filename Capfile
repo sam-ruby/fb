@@ -26,14 +26,3 @@ require 'capistrano/bundler'
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 
-task :query_interactive do
-  on 'deploy@192.155.86.27' do
-    info capture("[[ $- == *i* ]] && echo 'Interactive' || echo 'Not interactive'")
-  end
-end
-
-task :query_login do
-  on 'deploy@192.155.86.27' do
-    info capture("echo $PATH")
-  end
-end
