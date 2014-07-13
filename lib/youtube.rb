@@ -52,7 +52,7 @@ class YouTube
                      pageToken: next_page_token,
                      access_token: @secrets['access_token']})
         Rails.logger.info('Abt to call the url ' + url)
-        res = Net::HTTP.get_response(URI.parse(url))
+        res = ::Net::HTTP.get_response(URI.parse(url))
         if !res.is_a?(Net::HTTPSuccess)
           Rails.logger.error(JSON.parse(res.body))
           a = JSON.parse(res.body)
