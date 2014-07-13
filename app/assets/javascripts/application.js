@@ -13,9 +13,4 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require backbone-min
-//= require backbone-pageable.min
-//= require backgrid.min
-//= require jade/runtime
-//= require backbone/fb
-//= require init
+//= require angular.min
