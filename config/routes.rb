@@ -2,6 +2,7 @@ Fb::Application.routes.draw do
   root 'home#index'
   resources :songs
   resources :play_lists
+  get '/templates/*path', to: 'templates#page', constraints: {:path => /.+html/}
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
