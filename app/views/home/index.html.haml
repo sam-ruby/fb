@@ -1,11 +1,25 @@
 .container
-  Chalachitra Ganangal
+  .alert.alert-info.c-title{role: :alert}
+    Chalachitra Ganangal
   .row
-    .col-md-9
+    .col-md-12
       #song-list{'ng-controller'=>'SongListController as slCtrl'}
+        .fb-pagination
+          %pagination{'total-items' => 'slCtrl.total_songs',
+                      'ng-model'=>'slCtrl.current_page',
+                      'ng-change' => 'slCtrl.page_changed()',
+                      'items-per-page' => 'slCtrl.per_page',
+                      'max-size' => 'slCtrl.max_size',
+                      'boundary-links' => 'true'}
+
         %ul
           %li.song{'ng-repeat'=>'song in slCtrl.songs'}
             %song
+        .fb-pagination
+          %pagination{'total-items' => 'slCtrl.total_songs',
+                      'ng-model'=>'slCtrl.current_page',
+                      'ng-change' => 'slCtrl.page_changed()',
+                      'items-per-page' => 'slCtrl.per_page',
+                      'max-size' => 'slCtrl.max_size',
+                      'boundary-links' => 'true'}
 
-    .col-md-3
-      #play-lists

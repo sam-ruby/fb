@@ -16,4 +16,5 @@
 //= require angular.min
 //= require angular-route.min
 //= require angular-resource.min
+//= require ui-bootstrap-tpls-0.11.0.min
 //= require c_ganam
