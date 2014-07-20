@@ -1,0 +1,143 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+#song-list {
+  ul {
+    li {
+      list-style: none;
+      .song {
+        padding: 10px 15px;
+        max-width: 705px;
+        font-size: 12px;
+        cursor: pointer;
+        position: relative;
+        color: black;
+        .thumbnail {
+          float: left;
+          margin-right: 10px;
+          margin-bottom: 0;
+          width: 185px;
+          text-align: right;
+          padding: 0;
+          border: 0;
+          a {
+            cursor: poiner;
+            color: #1b7fcc;
+            text-decoration: none;
+            .video-thumb {
+              position: relative;
+              img {
+              }
+            }
+            .video-time {
+              padding: 0 4px;
+              font-weight: bold;
+              font-size: 11px;
+              background-color: #000;
+              color: #fff !important;
+              height: 14px;
+              line-height: 14px;
+              opacity: .75;
+              vertical-align: top;
+              zoom: 1;
+              display: inline-block;
+              position: absolute;
+              right: 2px;
+              bottom: 2px;
+            }
+          }
+        }
+        .content {
+          overflow: hidden;
+          cursor: pointer;
+          color: #555;
+          h3.title {
+            font-size: 14px;
+            margin-top: 5px;
+            a {
+              display: -webkit-box;
+              color: #1b7fcc;
+              max-height: 2.6em;
+              line-height: 1.3em;
+              overflow: hidden;
+              position: relative;
+              text-overflow: ellipsis;
+              white-space: normal;
+              word-wrap: break-word;
+              cursor: pointer;
+            }
+          }
+          .meta {
+            display: block;
+            margin: 5px 0 0;
+            padding: 0;
+            border: 0;
+            ul {
+              &:first-child {
+                margin-top: 0;
+                margin-bottom: 0;
+                margin-left: 0;
+                margin-right: 0;
+                border-top: 0;
+                border-bottom: 0;
+                border-right: 0;
+                border-left: 0;
+                padding-bottom: 0;
+                padding-top: 0;
+                padding-right: 0;
+                padding-left: 0;
+              }
+              margin-top: 2px;
+              list-style: none;
+              li {
+                display: inline-block;
+                margin: 0;
+                padding: 0;
+                border: 0;
+              }
+            }
+          }
+          .description {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            line-height: 1.3em;
+            word-wrap: break-word;
+            margin: 5px 0 0;
+            max-height: 2.6em;
+            background-color: #fff;
+            overflow: hidden;
+            position: relative;
+            text-overflow: ellipsis;
+            white-space: normal;
+            padding: 0;
+            border: 0;
+          }
+        }
+        &:before {
+          content: '.';
+          display: block;
+          height: 0;
+          visibility: hidden;
+        }
+        &:after {
+          content: '.';
+          display: block;
+          height: 0;
+          visibility: hidden;
+          clear: both;
+        }
+      }
+    }
+  }
+}

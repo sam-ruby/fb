@@ -1,6 +1,21 @@
-%li
-  Name:
-  %br
-  Created:
-  %br
-  Description:
+.song
+  .thumbnail
+    %a
+      .video-thumb
+        %img{src: "{{song.image_url}}", width: '185px', height: '104px'}
+  .content
+    %h3.title
+      %a
+        {{ song.title }}
+    .meta
+      %ul
+        %li
+          by
+          %b
+            Sam Varghese
+        %li
+          1 year ago
+        %li
+          900,000 views
+    .description
+      {{ song.description.length > 200 ? song.description.slice(0, 200) + ' ..' : song.description }}

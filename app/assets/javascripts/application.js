@@ -14,4 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require angular.min
+//= require angular-route.min
+//= require angular-resource.min
 //= require c_ganam

@@ -2,7 +2,10 @@
   Chalachitra Ganangal
   .row
     .col-md-9
-      #song-list
-        #eof
+      #song-list{'ng-controller'=>'SongListController as slCtrl'}
+        %ul
+          %li.song{'ng-repeat'=>'song in slCtrl.songs'}
+            %song
+
     .col-md-3
       #play-lists
