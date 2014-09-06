@@ -13,9 +13,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require backbone-min
+//= require backbone
 //= require backbone-pageable.min
 //= require backgrid.min
 //= require jade/runtime
 //= require backbone/fb
 //= require init
+//= require fb
+//= require yt 

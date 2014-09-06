@@ -14,5 +14,39 @@
     = javascript_include_tag "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
+  
   %body
+    :javascript
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1454913741434514',
+          xfbml      : true,
+          version    : 'v2.1'});
+        
+        CGanam.Auth.check_login();
+      };
+              
+      var api_key = 'AIzaSyDYgaCgKr-MxeRApfCBYebS4gNhY6JuyXw';
+      var setup = function () {
+        gapi.client.setApiKey(api_key);
+        gapi.client.load('youtube', 'v3', function() {
+          console.log('YouTube fired up');
+        });
+      };
+      
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk/debug.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+      
+      CGanam.Events.once('fb_ready', function(){
+          CGanam.Auth.check_login();
+        });
+
+
+
+    %script{src: "https://apis.google.com/js/client.js?onload=setup"}
     = yield 

@@ -1,5 +1,8 @@
 .container
   Chalachitra Ganangal
+  %fb:login-button.pull-right{onlogin: 'CGanam.Auth.check_login();',
+    scope: 'public_profile,email,user_groups,read_stream', 
+    'data-auto-logout-link' => 'true'}
   .row
     .col-md-9
       #song-list

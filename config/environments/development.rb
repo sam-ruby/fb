@@ -23,7 +23,7 @@ Fb::Application.configure do
   config.active_record.migration_error = :page_load
 
   config.assets.enabled = true
-  config.assets.js_compressor = :uglify
+  #config.assets.js_compressor = :uglify
   config.assets.css_compressor = :sass
 
   # Debug mode disables concatenation and preprocessing of assets.
