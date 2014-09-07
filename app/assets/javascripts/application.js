@@ -21,3 +21,4 @@
 //= require init
 //= require fb
 //= require yt 
+//= require player

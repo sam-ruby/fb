@@ -1,11 +1,36 @@
 .container
-  Chalachitra Ganangal
-  %fb:login-button.pull-right{onlogin: 'CGanam.Auth.check_login();',
-    scope: 'public_profile,email,user_groups,read_stream', 
-    'data-auto-logout-link' => 'true'}
+  .row
+    .col-md-12.col-sm-12.col-lg-12{style: 'text-align:center'}
+      .app-title
+        Chalachitra Ganangal
+  .fb-login-box
+    %fb:login-button.pull-right{onlogin: 'CGanam.Auth.check_login();',
+      scope: 'public_profile,email,user_groups,read_stream', 
+      'data-auto-logout-link' => 'true'}
+  .row.player-box
+    .col-md-12.col-sm-12.col-lg-12
+      #player
+      .page-title
+        %h4
+          Select the Songs and Click
+        %button.btn.btn-primary.active.play{type: :button, 
+          onclick: 'CGanam.Events.trigger("play-videos")'} Play
   .row
     .col-md-9
       #song-list
         #eof
     .col-md-3
       #play-lists
+        
+:javascript
+  // 2. This code loads the IFrame Player API code asynchronously.
+  var tag = document.createElement('script'); 
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // 3. This function creates an <iframe> (and YouTube player)
+  //    after the API code downloads.
+  function onYouTubeIframeAPIReady() {
+    CGanam.Events.trigger('youtube-iframe-api-ready');
+  }

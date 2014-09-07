@@ -1,15 +1,17 @@
 class Fb.Views.SongList extends Backbone.View
   initialize: (options) =>
     super(options)
-    collection = new Fb.Collections.Song()
-    @listenTo(collection, 'reset', @render)
-    @listenTo(CGanam.Events, 'load-songs', @load_songs)
-    
+    view = this
+    @listenTo(CGanam.Events, 'load-videos', @load_videos)
+    @listenTo(CGanam.Events, 'feed-pagination-marker',
+      (@group_id, @tokens) ->)
+      
     @request_mode = false
     marker = @$el.find('#eof')
 
-    get_next_set = (collection, marker) ->
-      CGanam.Events.trigger('get-next-set-songs')
+    get_next_set = ()->
+      CGanam.Events.trigger(
+        'get-next-set-feed', view.group_id, view.tokens)
 
     handler = do (marker) =>
       =>
@@ -21,17 +23,18 @@ class Fb.Views.SongList extends Backbone.View
 
     $(document).on('DOMContentLoaded load resize scroll', handler)
     @marker = marker
-    @collection = collection
 
-  load_songs: (data) =>
-    console.log 'Here is the data ', data
-    for link in data
-      @process_data(link)
+  load_videos: (videos) =>
+    @render(videos)
 
-  process_data: (data) =>
-    console.log data
+  events: 
+    'click li.song a': 'handle_image_click'
 
-  render: =>
+  handle_image_click: (e) ->
+    e.preventDefault()
+    $(e.target).parents('li.song').find('input.videos-selected').click()
+
+  render: (videos) =>
     @marker.removeClass('more-songs')
     if (list = @$el.find('ol.song-list')) and list.length == 0
       list = $('<ol class="song-list"></ol>')
@@ -39,7 +42,7 @@ class Fb.Views.SongList extends Backbone.View
     template = JST['backbone/templates/song_list']
     list.append( template(
       first_time: true,
-      songs: @collection.toJSON()) )
+      songs: videos))
     @$el.prepend(list)
     @request_mode = false
     @marker.empty()

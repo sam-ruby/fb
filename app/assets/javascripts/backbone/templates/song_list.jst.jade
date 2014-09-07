@@ -1,15 +1,18 @@
 each song in songs
   li.song.clearfix
+    .checkbox.pull-left
+      label
+        input.videos-selected(type="checkbox", value=song.id)
     .thumbnail
-      a(href="#watch/v/#{song.video_id}")
+      a(href="#watch/v/#{song.id}")
         span.video-thumb
           span.video-default
             span.video-clip
-              img(src=song.image_url, alt='Thumbnail')
+              img(src=song.snippet.thumbnails.default.url, alt='Thumbnail')
               span.valign
     .s-content
       h3.title
         a
-          span= song.title
+          span= song.snippet.title
       .description
-        span= song.description
+        span= song.snippet.description
