@@ -18,7 +18,6 @@ $(function(){
 
   var on_state_change = function(e) {
     if (e.data && e.data == 5) {
-      $('#player').show();
       player.playVideo();
     }
   };
@@ -29,20 +28,28 @@ $(function(){
       video_ids.push($(this).val());
     });
     if (video_ids.length) {
-      console.log('queuing the videos', video_ids);
+      if ($('#player').height() == 0 ) {
+        $('#player').css('height', '390px');
+      }
       player.cuePlaylist({playlist: video_ids});
     }
   };
 
   var show_play_button = function() {
-    $('div.page-title').show();
+    $('nav.player-controls').show();
   };
+
+  var uncheck_videos = function() {
+    $('input.videos-selected:checked').click();
+  }
+
   
+  CGanam.Events.once('youtube-iframe-api-ready', load_player);
   CGanam.Player = _.extend({}, Backbone.Events);
   CGanam.Player.listenTo(
       CGanam.Events, 'show-play-button', show_play_button);
   CGanam.Player.listenTo(
-      CGanam.Events, 'play-videos', queue_videos);
+      CGanam.Events, 'videos:play-videos', queue_videos);
   CGanam.Player.listenTo(
-      CGanam.Events, 'youtube-iframe-api-ready', load_player);
+      CGanam.Events, 'videos:uncheck-all', uncheck_videos);
 });

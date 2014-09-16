@@ -4,7 +4,7 @@
       {id: ids.join(','), part: 'id,snippet,contentDetails'});
     request.execute(function(response) {
       if (response.kind == "youtube#videoListResponse") {
-        console.log('Loading videos ', response.items);
+        //console.log('Loading videos ', response.items);
         CGanam.Events.trigger('load-videos', response.items);
         CGanam.Events.trigger('show-play-button');
       } else {

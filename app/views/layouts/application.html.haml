@@ -19,11 +19,11 @@
     :javascript
       window.fbAsyncInit = function() {
         FB.init({
-          appId      : '1454913741434514',
+          appId      : '1452355831690305',
           xfbml      : true,
           version    : 'v2.1'});
         
-        CGanam.Auth.check_login();
+        CGanam.Events.trigger('fb-ready');
       };
               
       var api_key = 'AIzaSyDYgaCgKr-MxeRApfCBYebS4gNhY6JuyXw';
@@ -38,15 +38,25 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {return;}
         js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk/debug.js";
+        js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
       
-      CGanam.Events.once('fb_ready', function(){
+      CGanam.Events.once('fb-ready', function(){
           CGanam.Auth.check_login();
         });
+        
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script'); 
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      function onYouTubeIframeAPIReady() {
+        CGanam.Events.trigger('youtube-iframe-api-ready');
+      }
 
     %script{src: "https://apis.google.com/js/client.js?onload=setup"}
     = yield 

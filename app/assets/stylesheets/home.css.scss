@@ -137,7 +137,7 @@ ol.song-list, ol.play-lists {
 
 .more-songs {
   width: 100%;
-  background-image: url('/assets/ajax_loader.gif');
+  background-image: url('/assets/fb_loader.gif');
   background-repeat: no-repeat;
   background-position: center;
   margin: 1em 0 2em;
@@ -148,33 +148,66 @@ ol.song-list, ol.play-lists {
 }
 .player-box {
   text-align: center;
-  width: 100%;
-  .page-title {
-    text-align: center;
+  .player-controls {
     display: none;
+    table {
+      width: 100%;
+      margin-top: 8px;
+      td.select-songs {
+        font-weight: bold;
+      }
+      td.uncheck, td.liked {
+        cursor: pointer;
+      }
+      td.liked {
+        label {
+          font-weight: normal;
+        }
+      }
+      td {
+        width: 33.33%;
+        &:first-child {
+          text-align: left;
+          padding-left: 10px;
+        }
+        &:last-child {
+          text-align: right;
+          padding-right: 10px;
+        }
+      }
+    }
   }
-
   #player {
-    display: none;
+    display: inline-block;
     margin: 10px 0 10px;
+    height: 0px;
   }
 }
 .app-title {
   text-align: center;
-  height: 77px;
-  width: 590px;
   border: thin solid #ddd;
   background-image: url('/assets/vallam.jpg');
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: bottom;
   color: white;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-weight: bold;
-  font-size: 54px;
+  font-size: 37px;
+  padding: 10px 80px;
   display: inline-block;
 }
 .fb-login-box {
   display: none;
 }
-  
+.app-info {
+  border-bottom: thin solid #ddd;
+  line-height: 20px;
+  margin-top: -21px;
+  .about {
+    margin-left: 25px;
+  }
+  .contact {
+    margin-right: 25px;
+  }
+}
 

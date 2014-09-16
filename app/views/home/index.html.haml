@@ -2,7 +2,16 @@
   .row
     .col-md-12.col-sm-12.col-lg-12{style: 'text-align:center'}
       .app-title
-        Chalachitra Ganangal
+        Mallu
+        %span.glyphicon.glyphicon-music
+        Radio
+      .app-info
+        %span.pull-left.about
+          %a{href: "/about"} About Us
+        &nbsp;
+        %span.pull-right.contact
+          %a{href: "mailto:support@rightmoveltd.com"} Contact
+
   .fb-login-box
     %fb:login-button.pull-right{onlogin: 'CGanam.Auth.check_login();',
       scope: 'public_profile,email,user_groups,read_stream', 
@@ -10,27 +19,22 @@
   .row.player-box
     .col-md-12.col-sm-12.col-lg-12
       #player
-      .page-title
-        %h4
-          Select the Songs and Click
-        %button.btn.btn-primary.active.play{type: :button, 
-          onclick: 'CGanam.Events.trigger("play-videos")'} Play
+      %nav.navbar.navbar-default.player-controls{role: :navigation}
+        %table
+          %tr
+            %td.select-songs
+              %span Select Songs and Click
+              %button.btn.btn-primary.play{type: :button, 
+                onclick: 'CGanam.Events.trigger("videos:play-videos")'} Play
+            %td.uncheck{onclick: 'CGanam.Events.trigger("videos:uncheck-all")'}
+              Uncheck All
+            %td
+              %button.btn.btn-primary.get-latest{type: :button, onclick: 'CGanam.Events.trigger("videos:get-latest")'}
+                Get Latest
+
   .row
     .col-md-9
       #song-list
         #eof
     .col-md-3
       #play-lists
-        
-:javascript
-  // 2. This code loads the IFrame Player API code asynchronously.
-  var tag = document.createElement('script'); 
-  tag.src = "https://www.youtube.com/iframe_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  // 3. This function creates an <iframe> (and YouTube player)
-  //    after the API code downloads.
-  function onYouTubeIframeAPIReady() {
-    CGanam.Events.trigger('youtube-iframe-api-ready');
-  }
