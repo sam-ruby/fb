@@ -137,7 +137,7 @@ ol.song-list, ol.play-lists {
 
 .more-songs {
   width: 100%;
-  background-image: url('/assets/fb_loader.gif');
+  background-image: url('/images/fb_loader.gif');
   background-repeat: no-repeat;
   background-position: center;
   margin: 1em 0 2em;
@@ -188,7 +188,7 @@ ol.song-list, ol.play-lists {
 .app-title {
   text-align: center;
   border: thin solid #ddd;
-  background-image: url('/assets/vallam.jpg');
+  background-image: url('/images/vallam.jpg');
   background-repeat: no-repeat;
   background-position: bottom;
   color: white;
@@ -200,6 +200,7 @@ ol.song-list, ol.play-lists {
 }
 .fb-login-box {
   display: none;
+  margin: 20px;
 }
 .app-info {
   border-bottom: thin solid #ddd;
