@@ -1,5 +1,6 @@
 Fb::Application.routes.draw do
   root 'home#index'
+  get 'about' => 'home#about'
   resources :songs
   resources :play_lists
 

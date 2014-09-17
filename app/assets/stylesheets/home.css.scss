@@ -158,6 +158,8 @@ ol.song-list, ol.play-lists {
       }
       td.uncheck, td.liked {
         cursor: pointer;
+        text-decoration: underline;
+        color: #428bca;
       }
       td.liked {
         label {
