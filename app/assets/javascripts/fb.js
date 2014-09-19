@@ -57,20 +57,21 @@
       }
       */
     } 
-    //console.log('Here is the link ', link, video_id);
+    console.log('Here is the link ', link, video_id);
     return video_id;
   };
 
   var get_youtube_link = function(feed) {
-    if (feed && feed.type == 'status' && feed.message) {
-      //console.log('Status is ', feed.message);
+    if (feed && (feed.type == 'status' || feed.type == 'photo') 
+        && feed.message) {
+      console.log('Status is ', feed.message);
       var match = feed.message.match(/http.+(youtube|you).+(com)?[^\s]+/);
       if (match) {
-        //console.log('Returning ', match[0]);
+        console.log('Returning ', match[0]);
         return match[0];
       }
     }else if (feed && feed.type == 'video' && feed.source) {
-      //console.log('Returning video ', feed.source);
+      console.log('Returning video ', feed.source);
       return feed.source;
     }
     return undefined;
@@ -78,7 +79,7 @@
 
   var get_group_links = function(gid, tokens) {
     FB.api('/' + gid + '/feed', tokens, function(response) {
-      //console.log('Here is the response ', response);
+      console.log('Here is the response ', response);
       var video_ids = [];
       if (response.paging && response.paging.next) {
         var time_token = response.paging.next.split('until=')[1].split('&')[0];
