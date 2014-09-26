@@ -52,3 +52,5 @@ gem 'google-api-client'
 ruby "2.1.0"
 
 gem 'jade'
+
+gem "koala", "~> 1.10.0rc"

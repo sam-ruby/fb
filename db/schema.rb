@@ -11,11 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140414031720) do
+ActiveRecord::Schema.define(version: 20140925233159) do
+
+  create_table "access_token", force: true do |t|
+    t.string "token"
+  end
+
+  create_table "fb_posts", force: true do |t|
+    t.string   "post_id"
+    t.datetime "post_created"
+    t.string   "type"
+    t.string   "video_id"
+  end
 
   create_table "play_lists", force: true do |t|
     t.string   "name"
-    t.text     "description"
+    t.text     "description", limit: 16777215
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -25,8 +36,8 @@ ActiveRecord::Schema.define(version: 20140414031720) do
     t.string   "video_id"
     t.datetime "published_at"
     t.string   "channel_id"
-    t.text     "title"
-    t.text     "description"
+    t.text     "title",         limit: 16777215
+    t.text     "description",   limit: 16777215
     t.string   "image_url"
     t.string   "channel_title"
     t.datetime "created_at"

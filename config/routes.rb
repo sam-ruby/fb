@@ -3,6 +3,7 @@ Fb::Application.routes.draw do
   get 'about' => 'home#about'
   resources :songs
   resources :play_lists
+  post '/' => 'home#store_tokens'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
