@@ -38,3 +38,10 @@
         #eof
     .col-md-3
       #play-lists
+:javascript
+  $(document).ready(function() {
+    $('span.contact').on('click', function(e) {
+      e.preventDefault();
+      window.top.location = $(this).find('a').attr('href');
+    });
+  });
