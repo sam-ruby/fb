@@ -11,11 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140925233159) do
+ActiveRecord::Schema.define(version: 20140928020030) do
 
   create_table "access_token", force: true do |t|
     t.string "token"
   end
+
+  create_table "delayed_jobs", force: true do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "fb_posts", force: true do |t|
     t.string   "post_id"
@@ -33,16 +49,21 @@ ActiveRecord::Schema.define(version: 20140925233159) do
   end
 
   create_table "songs", force: true do |t|
+    t.string   "fb_post_id"
+    t.datetime "fb_created_time"
+    t.datetime "fb_updated_time"
     t.string   "video_id"
     t.datetime "published_at"
     t.string   "channel_id"
-    t.text     "title",         limit: 16777215
-    t.text     "description",   limit: 16777215
+    t.text     "title"
+    t.text     "description"
     t.string   "image_url"
     t.string   "channel_title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
+
+  add_index "songs", ["fb_created_time"], name: "index_songs_on_fb_created_time", using: :btree
+  add_index "songs", ["fb_post_id"], name: "index_songs_on_fb_post_id", unique: true, using: :btree
+  add_index "songs", ["fb_updated_time"], name: "index_songs_on_fb_updated_time", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
