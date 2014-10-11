@@ -1,6 +1,7 @@
 Fb::Application.routes.draw do
   root 'home#index'
   get 'about' => 'home#about'
+  get 'get_songs' => 'home#get_songs'
   resources :songs
   resources :play_lists
   post '/' => 'home#store_tokens'

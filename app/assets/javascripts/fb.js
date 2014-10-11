@@ -1,7 +1,6 @@
 (function(){
-  var attempts = 0;
-  var required_perms = ['public_profile', 'email', 'user_groups',
-    'read_stream'];
+  var attempts = 0, Page = 0;
+  var required_perms = ['public_profile', 'email'];
 
   var check_login = function(scope) {
     if (!scope) {
@@ -19,7 +18,7 @@
       //console.log('asking for ', scope);
       check_login(scope);
     } else {
-      CGanam.Events.trigger('get-song-group');
+      CGanam.Events.trigger('get-songs');
     }
   };
 
@@ -129,6 +128,16 @@
     });
   };
 
+  var get_songs = function() {
+    $.getJSON('/get_songs', {page: Page++}, function(data, status) {
+      if (data.length ) {
+        CGanam.Events.trigger('get-video-details', data);
+      } else {
+        console.log('No video IDs detected');
+      }
+    });
+  };
+
   var get_missing_permissions = function (callback) {
     var missing_perms = [], current_perms = [];
     FB.api('/me/permissions', function(response) {
@@ -159,7 +168,8 @@
   };
 
   var refresh = function() {
-    CGanam.Events.trigger('get-song-group');
+    Page = 0;
+    CGanam.Events.trigger('get-songs');
   };
 
 
@@ -172,7 +182,10 @@
   CGanam.Group.listenTo(
       CGanam.Events, 'get-song-group', get_song_group);
   CGanam.Group.listenTo(
-      CGanam.Events, 'get-next-set-feed', get_group_links);
+      CGanam.Events, 'get-songs', get_songs);
+  CGanam.Group.listenTo(
+      //CGanam.Events, 'get-next-set-feed', get_group_links);
+      CGanam.Events, 'get-next-set-feed', get_songs);
   CGanam.Group.listenTo(
       CGanam.Events, 'videos:show-liked', show_liked);
   CGanam.Group.listenTo(

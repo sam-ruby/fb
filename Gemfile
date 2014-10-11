@@ -54,3 +54,5 @@ ruby "2.1.0"
 gem 'jade'
 
 gem "koala", "~> 1.10.0rc"
+gem 'delayed_job_active_record'
+gem 'daemons'
