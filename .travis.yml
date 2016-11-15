@@ -3,3 +3,5 @@ rvm:
   - 2.1.0
   - jruby
   - rbx-2
+before_script:
+  - psql -c 'create database fb_test;' -U postgres

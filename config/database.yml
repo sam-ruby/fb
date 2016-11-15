@@ -46,9 +46,6 @@ test:
   adapter: postgresql
   encoding: unicode
   database: fb_test
-  pool: 5
-  username: fb
-  password:
 
 production:
   adapter: mysql2
